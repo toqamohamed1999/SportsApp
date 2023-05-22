@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="teamCell" id="rdZ-Og-0Nl" customClass="TeamCell" customModule="Sports2" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="137" height="160"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" id="1yi-Ll-M05">
+                <rect key="frame" x="0.0" y="0.0" width="137" height="160"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0ac-aB-B5s">
+                        <rect key="frame" x="8" y="2.3333333333333357" width="120" height="120"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="120" id="Gym-kO-7dx"/>
+                            <constraint firstAttribute="height" constant="120" id="TNY-Hr-eFD"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bp5-Oc-NEg">
+                        <rect key="frame" x="0.0" y="130.33333333333334" width="150" height="21.666666666666657"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="150" id="6bp-aP-5mz"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="bp5-Oc-NEg" secondAttribute="bottom" constant="8" id="7tE-7l-EMl"/>
+                    <constraint firstItem="bp5-Oc-NEg" firstAttribute="top" secondItem="0ac-aB-B5s" secondAttribute="bottom" constant="8" id="FpD-Yl-RHl"/>
+                    <constraint firstAttribute="trailing" secondItem="bp5-Oc-NEg" secondAttribute="trailing" id="Sgn-la-ybj"/>
+                    <constraint firstAttribute="trailing" secondItem="0ac-aB-B5s" secondAttribute="trailing" constant="8" id="axg-U4-T4A"/>
+                    <constraint firstItem="0ac-aB-B5s" firstAttribute="centerX" secondItem="1yi-Ll-M05" secondAttribute="centerX" id="cgQ-mN-v7R"/>
+                    <constraint firstItem="0ac-aB-B5s" firstAttribute="leading" secondItem="1yi-Ll-M05" secondAttribute="leading" constant="8" id="hp9-dQ-KXH"/>
+                    <constraint firstItem="bp5-Oc-NEg" firstAttribute="leading" secondItem="1yi-Ll-M05" secondAttribute="leading" id="nga-jS-3MF"/>
+                </constraints>
+            </collectionViewCellContentView>
+            <size key="customSize" width="137" height="160"/>
+            <connections>
+                <outlet property="img" destination="0ac-aB-B5s" id="kHE-Ey-u9A"/>
+                <outlet property="nameLabel" destination="bp5-Oc-NEg" id="Kec-pc-Irc"/>
+            </connections>
+            <point key="canvasLocation" x="353.43511450381681" y="58.450704225352112"/>
+        </collectionViewCell>
+    </objects>
+</document>
