@@ -34,6 +34,7 @@ class LeagueDetailsVC: UIViewController {
     var teamsArr : [Team] = []
     var viewModel : LeagueDetailsViewModel!
     var reachability : Reachability!
+    var deleteProtocol : DeleteFavPrortocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -185,7 +186,7 @@ class LeagueDetailsVC: UIViewController {
             
             favImage.image = UIImage(named: "heart2")
             viewModel.deleteLeague(league: league)
-            self.showToast(message: "League removed from favorite", font: .systemFont(ofSize: 12.0))
+            self.showToast(message: "removed from favorite", font: .systemFont(ofSize: 12.0))
         }else{
             //save image as data
             let imageData = loadedImg.image?.pngData()?.base64EncodedString() ?? getLeaguePlaceolder(sportName: sportName)
@@ -194,8 +195,10 @@ class LeagueDetailsVC: UIViewController {
             favImage.image = UIImage(named: "redHeart2")
             league.sportName = sportName
             viewModel.insertLeague(league: league)
-            self.showToast(message: "League added to favorite", font: .systemFont(ofSize: 12.0))
+            self.showToast(message: "added to favorite", font: .systemFont(ofSize: 12.0))
         }
+        
+        if(deleteProtocol != nil){ deleteProtocol.notifyDeletFav()}
     }
     
 

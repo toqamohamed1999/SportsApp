@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Reachability
 
 class FavTableViewController: UITableViewController {
 
@@ -14,6 +15,7 @@ class FavTableViewController: UITableViewController {
     
     var leaguesArr : [League] = []
     var viewModel : FavViewModel!
+    var reachability : Reachability!
 
 
     override func viewDidLoad() {
@@ -56,20 +58,15 @@ class FavTableViewController: UITableViewController {
 }
 
 
-extension FavTableViewController {
+extension FavTableViewController : DeleteFavPrortocol {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "leagueCell", for: indexPath) as! LeagueCell
    
-//        let imgUrl = URL(string: leaguesArr[indexPath.row].league_logo ?? "league")
-//
-//        cell.img.makeRounded()
-//        cell.img?.kf.setImage(
-//            with: imgUrl,
-//            placeholder: UIImage(named: "league.png"))
         cell.img?.makeRounded()
         let imageData = Data(base64Encoded: leaguesArr[indexPath.row].league_logo ?? getLeaguePlaceolder(sportName: leaguesArr[indexPath.row].sportName ?? "soccerLeague ") ) ?? Data()
+    
         cell.img?.image = UIImage(data: imageData)
         
         cell.nameLabel.text = leaguesArr[indexPath.row].league_name ?? "No name"
@@ -95,13 +92,17 @@ extension FavTableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let leaguesDetailsView = self.storyboard?.instantiateViewController(withIdentifier: "leagueDetails2") as! LeagueDetailsVC;
+        checkNetwork()
+        reachability?.whenReachable = { reachability in
+            
+            self.navigateToDetails(index: indexPath.row)
+        }
+    
+        reachability?.whenUnreachable = { _ in
+            self.showNoIntrenetAlert(index: indexPath.row)
+           
+        }
 
-        leaguesDetailsView.sportName = leaguesArr[indexPath.row].sportName ?? "football"
-                
-        leaguesDetailsView.league = leaguesArr[indexPath.row]
-
-        self.present(leaguesDetailsView, animated:true, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -143,6 +144,49 @@ extension FavTableViewController {
     }
     
 
+    func showNoIntrenetAlert(index : Int){
+        
+        let alert : UIAlertController = UIAlertController(title: "No Internet!", message: "There is no network connection!, Do you want tp proceed?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
+            
+            self.navigateToDetails(index: index)
+            
+        }))
+        alert.addAction(UIAlertAction(title: "cancel", style: .destructive, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func navigateToDetails(index : Int){
+        
+        let leaguesDetailsView = self.storyboard?.instantiateViewController(withIdentifier: "leagueDetails2") as! LeagueDetailsVC;
+
+        leaguesDetailsView.sportName = leaguesArr[index].sportName ?? "football"
+                
+        leaguesDetailsView.league = leaguesArr[index]
+        
+        leaguesDetailsView.deleteProtocol = self
+
+        self.present(leaguesDetailsView, animated:true, completion: nil)
+    }
+    
+    func checkNetwork(){
+        
+        do{
+            reachability = try Reachability()
+            try reachability?.startNotifier()
+        }
+                
+        catch{
+            print("cant creat object of rechability")
+        }
+                
+    }
+    
+    func notifyDeletFav() {
+        viewModel.getStoredLeagues()
+        tableView.reloadData()
+    }
 
 
 }
