@@ -450,10 +450,13 @@
                     </view>
                     <connections>
                         <outlet property="favImage" destination="HQD-Li-dMY" id="Kar-ku-uOk"/>
+                        <outlet property="latestLAbel" destination="eFn-hc-HOQ" id="7tl-S9-6u2"/>
                         <outlet property="latestView" destination="3ZZ-mt-Ax3" id="qXa-3T-LGl"/>
                         <outlet property="loadedImg" destination="bmb-bN-ZIb" id="qLd-Y2-wBv"/>
                         <outlet property="noInternetImg" destination="iJA-Vz-bFd" id="6H0-xJ-yZp"/>
+                        <outlet property="teamsLAbel" destination="jur-hr-F0t" id="1uD-ql-q6X"/>
                         <outlet property="teamsView" destination="kvH-1c-NZE" id="low-X8-K48"/>
+                        <outlet property="upcomingLAbel" destination="IGI-1r-JuR" id="oUS-RT-K4G"/>
                         <outlet property="upcomingView" destination="AIN-RC-OdW" id="Ksg-aK-0gw"/>
                     </connections>
                 </viewController>
@@ -639,7 +642,7 @@
         <image name="heart2" width="50" height="50"/>
         <image name="noFav" width="251" height="201"/>
         <image name="noInternet" width="251" height="201"/>
-        <image name="sportscourt.fill" catalog="system" width="128" height="83"/>
+        <image name="sportscourt.fill" catalog="system" width="32" height="32"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

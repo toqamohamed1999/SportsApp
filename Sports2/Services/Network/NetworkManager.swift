@@ -65,7 +65,7 @@ class NetworkManager : NetworkService {
             
         }
         
-     //  print("####################### "+url)
+      //  print("####################### "+url)
                 
         AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil, interceptor: nil)
             .response{ resp in
@@ -78,6 +78,7 @@ class NetworkManager : NetworkService {
                         
                         
                     } catch {
+                        complition([])
                         print(error.localizedDescription)
                     }
                 case .failure(let error):

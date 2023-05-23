@@ -7,10 +7,14 @@
 
 import UIKit
 import Reachability
+import Lottie
 
 class LeagueDetailsVC: UIViewController {
     
+    @IBOutlet weak var teamsLAbel: UILabel!
+    @IBOutlet weak var upcomingLAbel: UILabel!
     
+    @IBOutlet weak var latestLAbel: UILabel!
     @IBOutlet weak var loadedImg: UIImageView!
     @IBOutlet weak var noInternetImg: UIImageView!
     @IBOutlet weak var favImage: UIImageView!
@@ -19,6 +23,8 @@ class LeagueDetailsVC: UIViewController {
     
     @IBOutlet weak var latestView: UICollectionView!
     let indicator=UIActivityIndicatorView(style: .large)
+    private var animationView: LottieAnimationView?
+
     
     var sportName = ""
     var league = League()
@@ -44,23 +50,28 @@ class LeagueDetailsVC: UIViewController {
         indicator.center = self.view.center
         self.view.addSubview(indicator)
         
+        viewModel = LeagueDetailsViewModel(networkManager: NetworkManager.sharedInstance,myCoreData: MyCoreData.sharedInstance)
+        
+        registerNibCells()
+        loadLeagueImage()
+        checkNetwork()
+        setUPFavAction()
+    }
+    
+    func registerNibCells(){
         upcomingView.register(UINib(nibName: "EventCell", bundle: .main), forCellWithReuseIdentifier: "eventCell")
         
         latestView.register(UINib(nibName: "EventCell", bundle: .main), forCellWithReuseIdentifier: "eventCell")
         
         teamsView.register(UINib(nibName: "TeamCell", bundle: .main), forCellWithReuseIdentifier: "teamCell")
-                
+    }
+    
+    func loadLeagueImage(){
         
-        viewModel = LeagueDetailsViewModel(networkManager: NetworkManager.sharedInstance,myCoreData: MyCoreData.sharedInstance)
-        
-        let imgUrl = URL(string: league.league_logo ?? "league")
+        let imgUrl = URL(string: league.league_logo ?? getLeaguePlaceolder(sportName: sportName))
         loadedImg?.kf.setImage(
             with: imgUrl,
-            placeholder: UIImage(named: "league"))
-        
-        checkNetwork()
-        setUPFavAction()
-        
+            placeholder: UIImage(named: getLeaguePlaceolder(sportName: sportName)))
     }
     
     func checkNetwork(){
@@ -71,9 +82,7 @@ class LeagueDetailsVC: UIViewController {
         }
                 
         catch{
-                   
             print("cant creat object of rechability")
-            print("Unable to start notifier")
         }
         
         getData()
@@ -83,13 +92,14 @@ class LeagueDetailsVC: UIViewController {
     func getData(){
         reachability?.whenReachable = { reachability in
             
-            if reachability.connection == .wifi {
-                print("Reachable via WiFi")
-                
-            } else {
-                print("Reachable via Cellular")
-            }
+//            if reachability.connection == .wifi {
+//                print("Reachable via WiFi")
+//
+//            } else {
+//                print("Reachable via Cellular")
+//            }
             
+            self.showLabels()
             self.noInternetImg.image = UIImage(named: "")
             self.getUpcomingEvents()
             self.getPreviousEvents()
@@ -98,6 +108,7 @@ class LeagueDetailsVC: UIViewController {
         reachability?.whenUnreachable = { _ in
             print("Not reachable")
             self.noInternetImg.image = UIImage(named: "noInternet")
+            self.hideLabels()
            
         }
         
@@ -124,11 +135,13 @@ class LeagueDetailsVC: UIViewController {
             DispatchQueue.main.async {
                 
                 self?.previousArr = self?.viewModel.previousResult ?? []
-                self?.getTeams()
-                self?.latestView.reloadData()
-                self?.teamsView.reloadData()
-                self?.indicator.stopAnimating()
-                
+                if(self?.previousArr.count == 0){ self?.dataNotFound()}
+                else{
+                    self?.getTeams()
+                    self?.latestView.reloadData()
+                    self?.teamsView.reloadData()
+                    self?.indicator.stopAnimating()
+                }
             }
         }
         viewModel.getPreviousEvents(sportName: sportName.lowercased(), leagueId: league.league_key!)
@@ -175,7 +188,7 @@ class LeagueDetailsVC: UIViewController {
             self.showToast(message: "League removed from favorite", font: .systemFont(ofSize: 12.0))
         }else{
             //save image as data
-            let imageData = loadedImg.image?.pngData()?.base64EncodedString() ?? "league"
+            let imageData = loadedImg.image?.pngData()?.base64EncodedString() ?? getLeaguePlaceolder(sportName: sportName)
             league.league_logo = imageData
             
             favImage.image = UIImage(named: "redHeart2")
@@ -207,15 +220,15 @@ extension LeagueDetailsVC : UICollectionViewDelegate,UICollectionViewDataSource,
            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "eventCell", for: indexPath) as! EventCell
             
             
-            let imgUrl = URL(string: upcomingArr[indexPath.row].home_team_logo ?? "soccer")
+            let imgUrl = URL(string: upcomingArr[indexPath.row].home_team_logo ?? getTeamPlaceolder(sportName: sportName))
             cell.img1?.kf.setImage(
                 with: imgUrl,
-                placeholder: UIImage(named: "soccer"))
+                placeholder: UIImage(named: getTeamPlaceolder(sportName: sportName)))
             
-            let imgUrl2 = URL(string: upcomingArr[indexPath.row].away_team_logo ?? "soccer")
+            let imgUrl2 = URL(string: upcomingArr[indexPath.row].away_team_logo ?? getTeamPlaceolder(sportName: sportName))
             cell.img2?.kf.setImage(
                 with: imgUrl2,
-                placeholder: UIImage(named: "soccer"))
+                placeholder: UIImage(named: getTeamPlaceolder(sportName: sportName)))
             
             cell.teamName1.text = upcomingArr[indexPath.row].event_home_team
             cell.teamName2.text = upcomingArr[indexPath.row].event_away_team
@@ -229,15 +242,15 @@ extension LeagueDetailsVC : UICollectionViewDelegate,UICollectionViewDataSource,
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "eventCell", for: indexPath) as! EventCell
     
-             let imgUrl = URL(string: previousArr[indexPath.row].home_team_logo ?? "soccer")
+             let imgUrl = URL(string: previousArr[indexPath.row].home_team_logo ?? getTeamPlaceolder(sportName: sportName))
              cell.img1?.kf.setImage(
                  with: imgUrl,
-                 placeholder: UIImage(named: "soccer"))
+                 placeholder: UIImage(named: getTeamPlaceolder(sportName: sportName)))
     
-             let imgUrl2 = URL(string: previousArr[indexPath.row].away_team_logo ?? "soccer")
+             let imgUrl2 = URL(string: previousArr[indexPath.row].away_team_logo ?? getTeamPlaceolder(sportName: sportName))
              cell.img2?.kf.setImage(
                  with: imgUrl2,
-                 placeholder: UIImage(named: "soccer"))
+                 placeholder: UIImage(named: getTeamPlaceolder(sportName: sportName)))
     
             cell.teamName1.text = previousArr[indexPath.row].event_home_team
             cell.teamName2.text = previousArr[indexPath.row].event_away_team
@@ -250,10 +263,10 @@ extension LeagueDetailsVC : UICollectionViewDelegate,UICollectionViewDataSource,
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "teamCell", for: indexPath) as! TeamCell
                          
-            let imgUrl = URL(string: teamsArr[indexPath.row].team_logo ?? "soccer")
+            let imgUrl = URL(string: teamsArr[indexPath.row].team_logo ?? getTeamPlaceolder(sportName: sportName))
              cell.img?.kf.setImage(
                  with: imgUrl,
-                 placeholder: UIImage(named: "soccer"))
+                 placeholder: UIImage(named: getTeamPlaceolder(sportName: sportName)))
 
             cell.nameLabel.text = teamsArr[indexPath.row].team_name
              
@@ -270,23 +283,56 @@ extension LeagueDetailsVC : UICollectionViewDelegate,UICollectionViewDataSource,
            let teamView = self.storyboard?.instantiateViewController(withIdentifier: "teamDetails") as! TeamDetailsViewController;
 
            teamView.team = teamsArr[indexPath.row]
+           
+           teamView.sportName = sportName
 
            self.present(teamView, animated:true, completion: nil)
        }
    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
         
         if collectionView == self.teamsView{
 
-            return CGSize(width: UIScreen.main.bounds.width/3, height: 160)
+            return CGSize(width: UIScreen.main.bounds.width/3, height: UIScreen.main.bounds.height/5.3)
         }
         if collectionView == self.latestView{
-            return CGSize(width: UIScreen.main.bounds.width - 40, height: 160)
+            return CGSize(width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height/5.3)
         }
         
-        return CGSize(width: UIScreen.main.bounds.width - 16, height: 160)
+        return CGSize(width: UIScreen.main.bounds.width - 16, height: UIScreen.main.bounds.height/5.3)
     }
     
+
+    
+    
+    func dataNotFound(){
+        hideLabels()
+        
+        animationView = .init(name: "noData")
+        let w = UIScreen.main.bounds.width
+        let h = UIScreen.main.bounds.height
+        animationView!.frame = CGRect(x: w/2-200, y: h/2-250, width: 400, height: 400)
+        animationView!.contentMode = .scaleAspectFit
+        animationView!.loopMode = .loop
+        animationView!.animationSpeed = 0.5
+        view.addSubview(animationView!)
+    
+        animationView!.play()
+        
+    }
+    
+    func hideLabels(){
+        teamsLAbel.text = ""
+        upcomingLAbel.text = ""
+        latestLAbel.text = ""
+    }
+    
+    func showLabels(){
+        teamsLAbel.text = "League Teams"
+        upcomingLAbel.text = "Upcoming Events"
+        latestLAbel.text = "Latest Events"
+    }
     
 }

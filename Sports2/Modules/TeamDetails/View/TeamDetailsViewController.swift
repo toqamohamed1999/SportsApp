@@ -17,6 +17,7 @@ class TeamDetailsViewController: UIViewController {
     
     var team : Team?
     var viewModel : TeamDetailsViewModel!
+    var sportName : String!
 
 
     override func viewDidLoad() {
@@ -54,10 +55,10 @@ class TeamDetailsViewController: UIViewController {
     
     func updateUI(){
         
-        let imgUrl = URL(string: team?.team_logo ?? "basketball")
+        let imgUrl = URL(string: team?.team_logo ?? getTeamPlaceolder(sportName: sportName))
         img?.kf.setImage(
             with: imgUrl,
-            placeholder: UIImage(named: "basketball"))
+            placeholder: UIImage(named: getTeamPlaceolder(sportName: sportName)))
         
         nameLabel.text = team?.team_name
         
@@ -100,7 +101,5 @@ extension TeamDetailsViewController : UITableViewDataSource,UITableViewDelegate{
         
         return 100.0
     }
-    
-    
-
+   
 }

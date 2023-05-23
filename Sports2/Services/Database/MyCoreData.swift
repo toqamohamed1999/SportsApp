@@ -41,7 +41,7 @@ class MyCoreData {
                     league.league_name = item.value(forKey: "league_name") as? String ?? ""
                     league.country_key = item.value(forKey: "country_key") as? Int ?? 0
                     league.country_logo = item.value(forKey: "country_logo") as? String ?? ""
-                    league.country_name = item.value(forKey: "country_name") as! String ?? ""
+                    league.country_name = item.value(forKey: "country_name") as? String ?? ""
                     league.sportName = item.value(forKey: "sportName") as! String ?? ""
                     
                     leagues.append(league)

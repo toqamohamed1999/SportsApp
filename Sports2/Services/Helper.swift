@@ -55,3 +55,33 @@ func getPastDate() -> String{
     
     return result
 }
+
+func getTeamPlaceolder(sportName : String) -> String{
+    
+    switch(sportName){
+        
+    case "Football" : return "soccer"
+    case "Basketball" : return "basketballTeam"
+    case "Cricket" : return "cricketTeam"
+    case "Tennis" : return "tennisTeam"
+   
+    default:
+        return "soccer"
+    }
+}
+
+func getLeaguePlaceolder(sportName : String) -> String{
+    
+    print(sportName)
+    
+    switch(sportName){
+        
+    case "Football" : return "soccerLeague "
+    case "Basketball" : return "basketLeague"
+    case "Cricket" : return "cricketLeague"
+    case "Tennis" : return "tennisLeague"
+        
+    default:
+        return "soccerLeague"
+    }
+}

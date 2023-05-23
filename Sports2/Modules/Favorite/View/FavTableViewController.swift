@@ -68,8 +68,8 @@ extension FavTableViewController {
 //        cell.img?.kf.setImage(
 //            with: imgUrl,
 //            placeholder: UIImage(named: "league.png"))
-        
-        let imageData = Data(base64Encoded: leaguesArr[indexPath.row].league_logo ?? "league" ) ?? Data()
+        cell.img?.makeRounded()
+        let imageData = Data(base64Encoded: leaguesArr[indexPath.row].league_logo ?? getLeaguePlaceolder(sportName: leaguesArr[indexPath.row].sportName ?? "soccerLeague ") ) ?? Data()
         cell.img?.image = UIImage(data: imageData)
         
         cell.nameLabel.text = leaguesArr[indexPath.row].league_name ?? "No name"
@@ -141,6 +141,8 @@ extension FavTableViewController {
         self.present(alert, animated: true, completion: nil)
         
     }
+    
+
 
 
 }

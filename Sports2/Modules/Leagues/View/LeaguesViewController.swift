@@ -69,12 +69,12 @@ extension LeaguesViewController : UITableViewDelegate,UITableViewDataSource {
         getLeagueValue(index: indexPath.row)
    
         cell.nameLabel.text = league.league_name ?? "No name"
-        let imgUrl = URL(string: league.league_logo ?? "league")
+        let imgUrl = URL(string: league.league_logo ?? getLeaguePlaceolder())
 
         cell.img.makeRounded()
         cell.img?.kf.setImage(
             with: imgUrl,
-            placeholder: UIImage(named: "league"))
+            placeholder: UIImage(named: getLeaguePlaceolder()))
         
         
         return cell
@@ -150,6 +150,20 @@ extension LeaguesViewController : UISearchBarDelegate {
         }
     }
     
-    
+    func getLeaguePlaceolder() -> String{
+        
+        print(sportName)
+        
+        switch(sportName){
+            
+        case "Football" : return "soccerLeague "
+        case "Basketball" : return "basketLeague"
+        case "Cricket" : return "cricketLeague"
+        case "Tennis" : return "tennisLeague"
+            
+        default:
+            return "soccerLeague"
+        }
+    }
     
 }
