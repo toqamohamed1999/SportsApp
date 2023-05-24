@@ -8,20 +8,20 @@
 import Foundation
 
 
-class LeagueDetailsViewModel{
+class LeagueDetailsViewModel<T : Codable>{
     
     var networkManager : NetworkService!
     var myCoreData : MyCoreData!
     var bindUpcomingEvents : (()->()) = {}
     var bindPreviousEvents : (()->()) = {}
     
-    var upcomingResult : [Event]!{
+    var upcomingResult : T!{
         didSet{
             bindUpcomingEvents()
         }
     }
     
-    var previousResult : [Event]!{
+    var previousResult : T!{
         didSet{
             bindPreviousEvents()
         }
@@ -34,15 +34,19 @@ class LeagueDetailsViewModel{
     
     
    func getUpcomingEvents(sportName : String, leagueId : Int){
+       
+       let url = getURL(fetchType: "upcoming" , sportName: sportName, leagueId: leagueId)
         
-       networkManager.getEvents(sportName: sportName,leagueId: leagueId, eventType: "future" ,complition: { myRes in
+       networkManager.fetchData(url : url ,complition: { myRes in
            self.upcomingResult = myRes
        })
     }
     
     func getPreviousEvents(sportName : String, leagueId : Int){
          
-        networkManager.getEvents(sportName: sportName,leagueId: leagueId, eventType: "past" ,complition: { myRes in
+        let url = getURL(fetchType: "latest" , sportName: sportName, leagueId: leagueId)
+         
+        networkManager.fetchData(url : url ,complition: { myRes in
             self.previousResult = myRes
         })
      }

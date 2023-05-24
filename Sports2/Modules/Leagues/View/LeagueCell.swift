@@ -35,7 +35,6 @@ class LeagueCell: UITableViewCell {
     }
     
 
-
 }
 
 

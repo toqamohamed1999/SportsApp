@@ -16,7 +16,7 @@ class TeamDetailsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var team : Team?
-    var viewModel : TeamDetailsViewModel!
+    var viewModel : TeamDetailsViewModel<TeamResult>!
     var sportName : String!
 
 
@@ -33,7 +33,7 @@ class TeamDetailsViewController: UIViewController {
         indicator.center = self.view.center
         self.view.addSubview(indicator)
         
-        viewModel = TeamDetailsViewModel(networkManager: NetworkManager.sharedInstance)
+        viewModel = TeamDetailsViewModel<TeamResult>(networkManager: NetworkManager.sharedInstance)
         
         getTeamDetails()
     }
@@ -44,7 +44,7 @@ class TeamDetailsViewController: UIViewController {
         viewModel.bindTeamDetails = { [weak self] in
             DispatchQueue.main.async {
             
-                self?.team = self?.viewModel.result[0]
+                self?.team = self?.viewModel.result.result[0]
                 self?.updateUI()
                 self?.indicator.stopAnimating()
             }

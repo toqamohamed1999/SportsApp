@@ -7,6 +7,8 @@
 
 import Foundation
 
+let API_KEY = "57b39cb2a9e26b94227ea074cbcd0f4400f01cc3ccac93956639610ee12dfa69"
+
 //format = 2024-01-18
 func getCurrentDate() -> String{
     
@@ -83,5 +85,25 @@ func getLeaguePlaceolder(sportName : String) -> String{
         
     default:
         return "soccerLeague"
+    }
+}
+
+func getURL(fetchType : String,sportName : String = "", leagueId : Int = 0,
+            eventType : String = "",teamKey : Int = 0) -> String{
+    
+    switch(fetchType){
+      
+    case "leagues" :  return "https://apiv2.allsportsapi.com/"+sportName+"/?met=Leagues&APIkey="+API_KEY
+        
+    case "upcoming" : return"https://apiv2.allsportsapi.com/"+sportName+"?met=Fixtures&leagueId="+String(leagueId)+"&from="+getCurrentDate()+"&to="+getFutureDate()+"&APIkey="+API_KEY
+        
+    case "latest" : return
+        "https://apiv2.allsportsapi.com/"+sportName+"?met=Fixtures&leagueId="+String(leagueId)+"&from="+getPastDate()+"&to="+getCurrentDate()+"&APIkey="+API_KEY
+        
+    case "team" : return "https://apiv2.allsportsapi.com/football/?&met=Teams&teamId="+String(teamKey)+"&APIkey="+API_KEY
+        
+    default:
+        return ""
+    
     }
 }

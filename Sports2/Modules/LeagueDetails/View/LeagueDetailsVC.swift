@@ -32,7 +32,7 @@ class LeagueDetailsVC: UIViewController {
     var previousArr : [Event] = []
     var teamsDic = [Int:Team]()
     var teamsArr : [Team] = []
-    var viewModel : LeagueDetailsViewModel!
+    var viewModel : LeagueDetailsViewModel<EventResult>!
     var reachability : Reachability!
     var deleteProtocol : DeleteFavPrortocol!
     
@@ -93,13 +93,6 @@ class LeagueDetailsVC: UIViewController {
     func getData(){
         reachability?.whenReachable = { reachability in
             
-//            if reachability.connection == .wifi {
-//                print("Reachable via WiFi")
-//
-//            } else {
-//                print("Reachable via Cellular")
-//            }
-            
             self.showLabels()
             self.noInternetImg.image = UIImage(named: "")
             self.getUpcomingEvents()
@@ -122,7 +115,7 @@ class LeagueDetailsVC: UIViewController {
         viewModel.bindUpcomingEvents = { [weak self] in
             DispatchQueue.main.async {
                 
-                self?.upcomingArr = self?.viewModel.upcomingResult ?? []
+                self?.upcomingArr = self?.viewModel.upcomingResult.result ?? []
                 self?.upcomingView.reloadData()
             }
         }
@@ -135,7 +128,7 @@ class LeagueDetailsVC: UIViewController {
         viewModel.bindPreviousEvents = { [weak self] in
             DispatchQueue.main.async {
                 
-                self?.previousArr = self?.viewModel.previousResult ?? []
+                self?.previousArr = self?.viewModel.previousResult.result ?? []
                 if(self?.previousArr.count == 0){ self?.dataNotFound()}
                 else{
                     self?.getTeams()
@@ -222,22 +215,7 @@ extension LeagueDetailsVC : UICollectionViewDelegate,UICollectionViewDataSource,
             
            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "eventCell", for: indexPath) as! EventCell
             
-            
-            let imgUrl = URL(string: upcomingArr[indexPath.row].home_team_logo ?? getTeamPlaceolder(sportName: sportName))
-            cell.img1?.kf.setImage(
-                with: imgUrl,
-                placeholder: UIImage(named: getTeamPlaceolder(sportName: sportName)))
-            
-            let imgUrl2 = URL(string: upcomingArr[indexPath.row].away_team_logo ?? getTeamPlaceolder(sportName: sportName))
-            cell.img2?.kf.setImage(
-                with: imgUrl2,
-                placeholder: UIImage(named: getTeamPlaceolder(sportName: sportName)))
-            
-            cell.teamName1.text = upcomingArr[indexPath.row].event_home_team
-            cell.teamName2.text = upcomingArr[indexPath.row].event_away_team
-            cell.dateLabel.text = upcomingArr[indexPath.row].event_date
-            cell.timeLabel.text = upcomingArr[indexPath.row].event_time
-            
+            cell.changeData(event: upcomingArr[indexPath.row], sportName: sportName, eventType: "upcoming")
             
             return cell
             
@@ -245,39 +223,22 @@ extension LeagueDetailsVC : UICollectionViewDelegate,UICollectionViewDataSource,
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "eventCell", for: indexPath) as! EventCell
     
-             let imgUrl = URL(string: previousArr[indexPath.row].home_team_logo ?? getTeamPlaceolder(sportName: sportName))
-             cell.img1?.kf.setImage(
-                 with: imgUrl,
-                 placeholder: UIImage(named: getTeamPlaceolder(sportName: sportName)))
-    
-             let imgUrl2 = URL(string: previousArr[indexPath.row].away_team_logo ?? getTeamPlaceolder(sportName: sportName))
-             cell.img2?.kf.setImage(
-                 with: imgUrl2,
-                 placeholder: UIImage(named: getTeamPlaceolder(sportName: sportName)))
-    
-            cell.teamName1.text = previousArr[indexPath.row].event_home_team
-            cell.teamName2.text = previousArr[indexPath.row].event_away_team
-            cell.dateLabel.text = previousArr[indexPath.row].event_date
-            cell.timeLabel.text = previousArr[indexPath.row].event_final_result
+            cell.changeData(event: previousArr[indexPath.row], sportName: sportName, eventType: "latest")
     
             return cell
 
         }else if collectionView == self.teamsView{
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "teamCell", for: indexPath) as! TeamCell
-                         
-            let imgUrl = URL(string: teamsArr[indexPath.row].team_logo ?? getTeamPlaceolder(sportName: sportName))
-             cell.img?.kf.setImage(
-                 with: imgUrl,
-                 placeholder: UIImage(named: getTeamPlaceolder(sportName: sportName)))
 
-            cell.nameLabel.text = teamsArr[indexPath.row].team_name
+            cell.changeData(team: teamsArr[indexPath.row],sportName: sportName)
              
              return cell
         }
         
         return UICollectionViewCell()
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
        

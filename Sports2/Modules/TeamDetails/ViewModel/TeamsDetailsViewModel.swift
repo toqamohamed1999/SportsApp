@@ -7,12 +7,12 @@
 
 import Foundation
 
-class TeamDetailsViewModel{
+class TeamDetailsViewModel<T : Codable>{
     
     var networkManager : NetworkService!
     var bindTeamDetails : (()->()) = {}
     
-    var result : [Team]!{
+    var result : T!{
         didSet{
             bindTeamDetails()
         }
@@ -26,7 +26,9 @@ class TeamDetailsViewModel{
     
     func getTeamDetails(teamKey : Int){
         
-        networkManager.getTeamDetails(teamKey : teamKey, complition: { myRes in
+        let url = getURL(fetchType: "team", teamKey: teamKey)
+        
+        networkManager.fetchData(url: url, complition: { myRes in
             self.result = myRes
         })
     }

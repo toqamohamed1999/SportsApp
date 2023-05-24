@@ -21,4 +21,15 @@ class TeamCell: UICollectionViewCell {
         img.makeRoundedWithoutBorder()
 
     }
+    
+    func changeData(team : Team, sportName :String){
+        
+        let imgUrl = URL(string: team.team_logo ?? getTeamPlaceolder(sportName: sportName))
+        img?.kf.setImage(
+        with: imgUrl,
+        placeholder: UIImage(named: getTeamPlaceolder(sportName: sportName)))
+
+        nameLabel.text = team.team_name
+        
+    }
 }

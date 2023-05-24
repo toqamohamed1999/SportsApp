@@ -32,6 +32,30 @@ class EventCell: UICollectionViewCell {
 
     //    contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
     }
+    
+    func changeData(event : Event ,sportName  :String, eventType : String){
+        
+        var placeHolder = getTeamPlaceolder(sportName: sportName)
+        
+        let imgUrl = URL(string: event.home_team_logo ?? placeHolder)
+        img1?.kf.setImage(
+            with: imgUrl,
+            placeholder: UIImage(named: placeHolder))
+        
+        let imgUrl2 = URL(string: event.away_team_logo ?? placeHolder)
+        img2?.kf.setImage(
+            with: imgUrl2,
+            placeholder: UIImage(named: placeHolder))
+        
+        teamName1.text = event.event_home_team
+        teamName2.text = event.event_away_team
+        dateLabel.text = event.event_date
+        if(eventType == "upcoming"){
+            timeLabel.text = event.event_time
+        }else{
+            timeLabel.text = event.event_final_result
+        }
+    }
 
 }
 

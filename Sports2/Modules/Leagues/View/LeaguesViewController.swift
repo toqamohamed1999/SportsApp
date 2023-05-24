@@ -21,7 +21,7 @@ class LeaguesViewController: UIViewController {
     var sportName = ""
     var league = League()
     var isFiltered = false
-    var viewModel : LeaguesViewModel!
+    var viewModel : LeaguesViewModel<LeaguesResult>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +49,7 @@ class LeaguesViewController: UIViewController {
         viewModel.bindResultToViewController = { [weak self] in
             DispatchQueue.main.async {
             
-                self?.leaguesArr = self?.viewModel.result ?? []
+                self?.leaguesArr = self?.viewModel.result.result ?? []
                 self?.tableView.reloadData()
                 self?.indicator.stopAnimating()
                 
@@ -69,12 +69,12 @@ extension LeaguesViewController : UITableViewDelegate,UITableViewDataSource {
         getLeagueValue(index: indexPath.row)
    
         cell.nameLabel.text = league.league_name ?? "No name"
-        let imgUrl = URL(string: league.league_logo ?? getLeaguePlaceolder())
+        let imgUrl = URL(string: league.league_logo ?? getLeaguePlaceolder(sportName: sportName))
 
         cell.img.makeRounded()
         cell.img?.kf.setImage(
             with: imgUrl,
-            placeholder: UIImage(named: getLeaguePlaceolder()))
+            placeholder: UIImage(named: getLeaguePlaceolder(sportName: sportName)))
         
         
         return cell
@@ -150,20 +150,5 @@ extension LeaguesViewController : UISearchBarDelegate {
         }
     }
     
-    func getLeaguePlaceolder() -> String{
-        
-        print(sportName)
-        
-        switch(sportName){
-            
-        case "Football" : return "soccerLeague "
-        case "Basketball" : return "basketLeague"
-        case "Cricket" : return "cricketLeague"
-        case "Tennis" : return "tennisLeague"
-            
-        default:
-            return "soccerLeague"
-        }
-    }
     
 }

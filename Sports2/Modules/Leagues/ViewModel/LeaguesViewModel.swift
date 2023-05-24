@@ -8,12 +8,12 @@
 import Foundation
 
 
-class LeaguesViewModel{
+class LeaguesViewModel<T : Codable>{
     
     var networkManager : NetworkService!
     var bindResultToViewController : (()->()) = {}
     
-    var result : [League]!{
+    var result : T!{
         didSet{
             bindResultToViewController()
         }
@@ -25,8 +25,10 @@ class LeaguesViewModel{
     
     
    func getLeagues(sportName : String){
+       
+       let url = getURL(fetchType: "leagues", sportName: sportName)
         
-       networkManager.getLeagues(sportName: sportName,complition: { myRes in
+       networkManager.fetchData(url : url,complition: { myRes in
            self.result = myRes
        })
     }
