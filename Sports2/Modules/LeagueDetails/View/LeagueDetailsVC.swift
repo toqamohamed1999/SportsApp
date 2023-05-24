@@ -115,7 +115,7 @@ class LeagueDetailsVC: UIViewController {
         viewModel.bindUpcomingEvents = { [weak self] in
             DispatchQueue.main.async {
                 
-                self?.upcomingArr = self?.viewModel.upcomingResult.result ?? []
+                self?.upcomingArr = self?.viewModel.upcomingResult?.result ?? []
                 self?.upcomingView.reloadData()
             }
         }
@@ -128,7 +128,7 @@ class LeagueDetailsVC: UIViewController {
         viewModel.bindPreviousEvents = { [weak self] in
             DispatchQueue.main.async {
                 
-                self?.previousArr = self?.viewModel.previousResult.result ?? []
+                self?.previousArr = self?.viewModel.previousResult?.result ?? []
                 if(self?.previousArr.count == 0){ self?.dataNotFound()}
                 else{
                     self?.getTeams()
@@ -148,9 +148,9 @@ class LeagueDetailsVC: UIViewController {
         
         for event in arr {
             
-            teamsDic.updateValue(Team(team_key: event.home_team_key,team_name: event.event_home_team, team_logo: event.home_team_logo), forKey: event.home_team_key!)
+            teamsDic.updateValue(Team(team_key: event.home_team_key,team_name: event.event_home_team, team_logo: event.home_team_logo), forKey: event.home_team_key ?? 0)
             
-            teamsDic.updateValue(Team(team_key: event.away_team_key,team_name: event.event_away_team, team_logo: event.away_team_logo), forKey: event.away_team_key!)
+            teamsDic.updateValue(Team(team_key: event.away_team_key,team_name: event.event_away_team, team_logo: event.away_team_logo), forKey: event.away_team_key ?? 0)
             
         }
         

@@ -15,13 +15,13 @@ class LeagueDetailsViewModel<T : Codable>{
     var bindUpcomingEvents : (()->()) = {}
     var bindPreviousEvents : (()->()) = {}
     
-    var upcomingResult : T!{
+    var upcomingResult : T?{
         didSet{
             bindUpcomingEvents()
         }
     }
     
-    var previousResult : T!{
+    var previousResult : T?{
         didSet{
             bindPreviousEvents()
         }

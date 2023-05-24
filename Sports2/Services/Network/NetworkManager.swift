@@ -36,6 +36,7 @@ class NetworkManager : NetworkService {
                         
                     } catch {
                         print(error.localizedDescription)
+                        complition(nil)
                     }
                 case .failure(let error):
                     print(error.localizedDescription)

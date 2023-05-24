@@ -47,8 +47,8 @@ class EventCell: UICollectionViewCell {
             with: imgUrl2,
             placeholder: UIImage(named: placeHolder))
         
-        teamName1.text = event.event_home_team
-        teamName2.text = event.event_away_team
+        teamName1.text = event.event_home_team ?? "Unknown name"
+        teamName2.text = event.event_away_team ?? "Unknown name"
         dateLabel.text = event.event_date
         if(eventType == "upcoming"){
             timeLabel.text = event.event_time

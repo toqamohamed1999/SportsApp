@@ -44,12 +44,12 @@ class TeamDetailsViewController: UIViewController {
         viewModel.bindTeamDetails = { [weak self] in
             DispatchQueue.main.async {
             
-                self?.team = self?.viewModel.result.result[0]
+                self?.team = self?.viewModel.result?.result[0]
                 self?.updateUI()
                 self?.indicator.stopAnimating()
             }
         }
-        viewModel.getTeamDetails(teamKey: (team?.team_key)!)
+        viewModel.getTeamDetails(teamKey: (team?.team_key) ?? 0)
     }
     
     
@@ -94,7 +94,7 @@ extension TeamDetailsViewController : UITableViewDataSource,UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return (team?.players?.count)!
+        return (team?.players?.count) ?? 0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

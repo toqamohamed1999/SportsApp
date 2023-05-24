@@ -49,7 +49,7 @@ class LeaguesViewController: UIViewController {
         viewModel.bindResultToViewController = { [weak self] in
             DispatchQueue.main.async {
             
-                self?.leaguesArr = self?.viewModel.result.result ?? []
+                self?.leaguesArr = self?.viewModel.result?.result ?? []
                 self?.tableView.reloadData()
                 self?.indicator.stopAnimating()
                 

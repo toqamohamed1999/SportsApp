@@ -29,7 +29,7 @@ class TeamCell: UICollectionViewCell {
         with: imgUrl,
         placeholder: UIImage(named: getTeamPlaceolder(sportName: sportName)))
 
-        nameLabel.text = team.team_name
+        nameLabel.text = team.team_name ?? "Unknown name"
         
     }
 }
