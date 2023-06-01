@@ -44,6 +44,7 @@
 		04B434872A1E4ADF004940FC /* Sports2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B434862A1E4ADF004940FC /* Sports2Tests.swift */; };
 		04B4348E2A1E4B44004940FC /* FakeNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B4348D2A1E4B44004940FC /* FakeNetwork.swift */; };
 		04B434902A1E4BA4004940FC /* MockNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B4348F2A1E4BA4004940FC /* MockNetworkManager.swift */; };
+		04D310242A280E190014AC34 /* NetworkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D310232A280E190014AC34 /* NetworkTest.swift */; };
 		04D61E7A2A1CEF1100650417 /* noData.json in Resources */ = {isa = PBXBuildFile; fileRef = 04D61E792A1CEF1100650417 /* noData.json */; };
 		04D61E7C2A1D0EF400650417 /* DeleteFavProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D61E7B2A1D0EF400650417 /* DeleteFavProtocol.swift */; };
 		04E5D4D22A1BC7C0004D269E /* SportsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E5D4D12A1BC7C0004D269E /* SportsVC.swift */; };
@@ -102,6 +103,7 @@
 		04B434862A1E4ADF004940FC /* Sports2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sports2Tests.swift; sourceTree = "<group>"; };
 		04B4348D2A1E4B44004940FC /* FakeNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeNetwork.swift; sourceTree = "<group>"; };
 		04B4348F2A1E4BA4004940FC /* MockNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkManager.swift; sourceTree = "<group>"; };
+		04D310232A280E190014AC34 /* NetworkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTest.swift; sourceTree = "<group>"; };
 		04D61E792A1CEF1100650417 /* noData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = noData.json; path = ../../../../Downloads/noData.json; sourceTree = "<group>"; };
 		04D61E7B2A1D0EF400650417 /* DeleteFavProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteFavProtocol.swift; sourceTree = "<group>"; };
 		04E5D4D12A1BC7C0004D269E /* SportsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsVC.swift; sourceTree = "<group>"; };
@@ -381,6 +383,7 @@
 				04B434862A1E4ADF004940FC /* Sports2Tests.swift */,
 				04B4348D2A1E4B44004940FC /* FakeNetwork.swift */,
 				04B4348F2A1E4BA4004940FC /* MockNetworkManager.swift */,
+				04D310232A280E190014AC34 /* NetworkTest.swift */,
 			);
 			path = Sports2Tests;
 			sourceTree = "<group>";
@@ -604,6 +607,7 @@
 			files = (
 				04B434902A1E4BA4004940FC /* MockNetworkManager.swift in Sources */,
 				04B434872A1E4ADF004940FC /* Sports2Tests.swift in Sources */,
+				04D310242A280E190014AC34 /* NetworkTest.swift in Sources */,
 				04B4348E2A1E4B44004940FC /* FakeNetwork.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

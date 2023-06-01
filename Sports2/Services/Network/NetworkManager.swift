@@ -24,6 +24,7 @@ class NetworkManager : NetworkService {
     
     func fetchData<T : Codable>(url : String , complition : @escaping (T?) -> ()){
                         
+        print("#############"+url)
         AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: nil, interceptor: nil)
             .response{ resp in
                 switch resp.result{

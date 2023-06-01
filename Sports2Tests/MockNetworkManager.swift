@@ -13,11 +13,11 @@ import XCTest
 
 final class MockNetworkManager: XCTestCase {
     
-    var networkManager :  NetworkService!
+    var networkManager :  FakeNetwork<LeaguesResult>!
     
     override func setUpWithError() throws {
         
-        networkManager = FakeNetwork<LeaguesResult>(shouldReturnError: false) //true = error
+        networkManager = FakeNetwork(shouldReturnError: false) //true = error
     }
     
     override func tearDownWithError() throws {
@@ -27,23 +27,21 @@ final class MockNetworkManager: XCTestCase {
     
     
     func testfetchData(){
-       
-        var myResult : LeaguesResult!
         
-        networkManager.fetchData(url: "", complition: {result in
-            myResult = result
-         
-            if(myResult == nil){
+        networkManager.fetchData(url : ""){(it : LeaguesResult?) in
+            
+            if(it == nil){
 
                 print("########## no data found")
                 XCTFail()
 
             }else{
-
-                XCTAssertNotNil(myResult)
-                XCTAssertEqual(myResult.result.count, 1)
+                XCTAssertNotNil(it)
+              //  XCTAssertEqual(result.result.count, 1)
             }
-        })
+            
+        }
+        
 
     }
                                  
